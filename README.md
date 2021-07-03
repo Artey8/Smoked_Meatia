@@ -1,0 +1,2 @@
+# Smoked_Meatia
+MVP project for hack-reactor. I was given the choice of any app that i wanted to make, so I decided that I wanted to go with a social-media app for people who smoke meats. Smoking meats is something that I really enjoy, so why not create a way to connect with other meat lovers. Initially i will only be implementing a feed of images, with some features like posting liking disliking and other standard things. If i have time I would like to try and implement live chatting with socket.io 
