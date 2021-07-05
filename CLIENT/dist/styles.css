@@ -1,6 +1,10 @@
 body {
   height: 100vh;
-  background-image: linear-gradient(rgba(68, 37, 37, 0.822), rgba(133, 102, 102, 0.808));
+  background: url('https://image.shutterstock.com/image-illustration/grunge-flame-abstract-template-600w-75737737.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 .title {
@@ -46,12 +50,11 @@ body {
   max-width: 95%;
 }
 .post-title {
-  text-decoration: underline;
   font-size: 1.5em;
   max-width: 95%;
 }
 .like {
-
+  border-color: green;
 }
 .dislike {
 

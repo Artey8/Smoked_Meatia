@@ -79,6 +79,17 @@ const feedData = [
       ]
     }
   },
+  {
+    id: 6,
+    user: "meat_lover",
+    post: {
+      message: "Hey yall, I love Meat",
+      images: [],
+      likes: 0,
+      dislikes: 0,
+      comments: []
+    }
+  },
 ]
 
 export default { feedData }
