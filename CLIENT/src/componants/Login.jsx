@@ -8,11 +8,15 @@ const Login = (props) => {
   const { setUser, setLoggedIn } = props;
 
   useEffect(() => {
-    axios.get('/users')
+    axios.get('/users', {
+      params: {
+        all: true
+      }
+    })
     .then((res) => {
       let AllNames = [];
-      for (let i = 0; i < res.data.length; i++) {
-        AllNames.push(res.data[i].name)
+      for (let i = 0; i < res.data.rows.length; i++) {
+        AllNames.push(res.data.rows[i].name)
       }
       setAllUsers(AllNames)
     }).catch((err) => {
@@ -32,7 +36,6 @@ const Login = (props) => {
         userName.indexOf('<script>') > -1 ||
         userName.indexOf('</script>') > -1
         ) {
-        console.log('got here')
         result.valid = false;
         result.message = 'No Scripting Please';
         setUsername('');
@@ -54,8 +57,8 @@ const Login = (props) => {
       <input
         maxLength="15"
         type="text"
-        placeholder="Enter your UserName"
-        className="login-input"
+        placeholder="UserName"
+        className="login-input username-input"
         value={userName}
         onChange={(e) => {
           setUsername(e.target.value);

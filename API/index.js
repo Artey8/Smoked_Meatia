@@ -5,14 +5,14 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 const path = require('path');
-const { addPost, getPosts } = require('../DATABASE/controllers/PostController');
-const { addUser, getUsers } = require('../DATABASE/controllers/UserController');
+const { addPost, getPosts, updateLikes, updateDislikes } = require('../DATABASE/controllers/PostController');
+const { addUser, getUser } = require('../DATABASE/controllers/UserController');
 
 app.use(express.static(path.join(__dirname, '/../CLIENT/dist/')));
 app.use(bodyParser.json({ limit: '2mb'}))
 
 app.get('/posts', async (req, res) => {
-  let count = req.body.count || req.query.count || 10
+  let count = req.body.count || req.query.count || 20
   try {
     let data = await getPosts(count)
     res.send(data);
@@ -36,15 +36,29 @@ app.delete('/posts', (req, res) => {
   res.sendStatus(200);
 })
 
-app.put('/posts', (req, res) => {
-  res.sendStatus(201);
+app.put('/posts/likes', async (req, res) => {
+  try {
+    await updateLikes(req.query);
+    res.sendStatus(201)
+  } catch (err) {
+    console.error(err)
+    res.sendStatus(400)
+  }
+})
+app.put('/posts/dislikes', async (req, res) => {
+  try {
+    await updateDislikes(req.query);
+    res.sendStatus(201)
+  } catch (err) {
+    console.error(err)
+    res.sendStatus(400)
+  }
 })
 
 app.get('/users', async (req, res) => {
   try {
-    let result = await getUsers(req.body)
-    // console.log(result.rows)
-    res.send(result.rows);
+    let result = await getUser(req.query);
+    res.send(result);
   } catch(err) {
     console.error(err);
     res.sendStatus(400);

@@ -1,7 +1,7 @@
 const { pool } = require('../index.js');
 
 const getPosts = (count) => {
-  let querySting = `SELECT * FROM post ORDER BY id DESC LIMIT ${count}`;
+  let querySting = `SELECT * FROM posts ORDER BY id DESC LIMIT ${count}`;
   return new Promise((resolve, reject) => {
     pool.query(querySting)
     .then((res) => {
@@ -29,7 +29,35 @@ const addPost = ({ message, photo, user}) => {
   });
 };
 
+const updateLikes = ({ post_id }) => {
+  let query =  `UPDATE posts SET likes = likes + 1 WHERE id = ${post_id}`
+  return new Promise((resolve, reject) => {
+    pool.query(query)
+    .then(() => {
+      resolve('success');
+    }).catch((err) => {
+      console.error(err);
+      reject(err);
+    })
+  })
+}
+
+const updateDislikes = ({ post_id }) => {
+  let query = `UPDATE posts SET dislikes = dislikes + 1 WHERE id = ${post_id}`
+  return new Promise((resolve, reject) => {
+    pool.query(query)
+    .then(() => {
+      resolve('success');
+    }).catch((err) => {
+      console.error(err);
+      reject(err);
+    })
+  })
+}
+
 module.exports = {
   addPost,
   getPosts,
+  updateLikes,
+  updateDislikes,
 }

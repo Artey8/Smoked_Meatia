@@ -41,11 +41,19 @@ body {
 }
 
 .post-image {
-  height: 18em;
-  max-height: 20vh;
+  width: 20%;
+  max-height: 100vh;
   max-width: 95%;
+  border: 3px solid black;
+  border-radius: 15px;
+  transition: 1s;
+}
+#post-image-selected {
+  max-height: 90vh;
+  width: 40vw;
 }
 .post-text {
+  text-align: center;
   font-size: 1.25em;
   max-width: 95%;
 }
@@ -178,4 +186,35 @@ body {
   border-radius: 15px;
   border: 2px solid black;
   margin-left: 9.5%;
+  max-height: 50vh;
+}
+.post-banner {
+  color: lightgray;
+  text-align: center;
+  width: 98.5vw;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  position: absolute;
+  background-color: rgba(49, 47, 47, 0.9);
+  border: 2px solid black;
+  top: 10vh;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.username-input {
+  text-align: center;
+}
+.post-likes-section {
+  display: flex;
+  width: 100%;
+  font-size: 1.5em;
+  align-content: center;
+}
+.post-likes {
+  width: 100%;
+  text-align: center;
+}
+.post-dislikes {
+  width: 100%;
+  text-align: center;
 }

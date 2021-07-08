@@ -6,7 +6,7 @@ const PostForm = (props) => {
   const [pMessage, setpMessage] = useState('');
   const [photo, setPhoto] = useState('');
   const [ready, setReady] = useState(true);
-  const { user } = props;
+  const { user, setCreateClicked } = props;
 
 
   const postPhotos = (file) => {
@@ -67,7 +67,7 @@ const PostForm = (props) => {
       <label className="post-form-label">Upload an Image</label>
       <input
         type="file"
-        accept="image/png, image/jpeg, image/heic"
+        accept="image/png, image/jpeg, image/jpg"
         className="post-form-input"
         onChange={(e) => {
           setReady(false);
@@ -97,9 +97,13 @@ const PostForm = (props) => {
               }
               axios.post('/posts', postObj)
               .then((res) => {
-                console.log('posted');
+                setpMessage('');
+                setPhoto('');
+                setCreateClicked('posted');
               }).catch((err) => {
                 console.error(err);
+                setReady(true);
+                alert('Image could not be uploaded, This is comonly from it being too large. Images must be less than 2mb.')
               })
             }
           })

@@ -13,15 +13,13 @@ const Loading = (props) => {
         setLoadingImages([...loadingImages, 1])
       }
     }, 200);
-    // return () => {
-    //   console.log('Loading Complete');
-    // }
   }, [loadingImages]);
 
   return (
     <>
-      {loadingImages.map(() => (
-        <img src="https://img.icons8.com/color/48/000000/cuts-of-beef.png"/>
+      <p>Loading...</p>
+      {loadingImages.map((image, i) => (
+        <img key={i} src="https://img.icons8.com/color/48/000000/cuts-of-beef.png"/>
       ))}
     </>
   )

@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Post from './Post';
 
 const Feed = (props) => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    axios.get('/posts')
+    .then(({ data }) => {
+      setPosts(data.rows);
+    }).catch((err) => {
+      console.error(err);
+      alert('Couldn\' load the feed.')
+    })
+  }, [props])
 
   return (
     <div id="feed">
@@ -13,8 +25,7 @@ const Feed = (props) => {
       >
         Make Post
       </button>
-
-      {props.data.map((post) => (
+      {posts.map((post) => (
         <Post key={post.id} data={post}/>
       ))}
     </div>

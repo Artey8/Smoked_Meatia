@@ -1,17 +1,86 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Post = (props) => {
+  const { photo_url, message, user_id, likes, dislikes, id } = props.data;
+  const [user, setUser] = useState('No UserName');
+  const [likesState, setLikes] = useState(likes);
+  const [dislikesState, setDislikes] = useState(dislikes);
+  const [likeClicked, setLikeClicked] = useState(false);
+  const [dislikeClicked, setDislikeClicked] = useState(false);
+  const [postImageID, setPostImageId] = useState('');
+
+  useEffect(() => {
+    axios.get('/users', {
+      params: {
+        id: user_id,
+        all: false
+      }
+    })
+    .then((res) => {
+      setUser(res.data.rows[0].name);
+    })
+  }, [props.data])
+
+  useEffect(() => {
+    if (likeClicked) {
+      axios.put(`posts/likes?post_id=${id}`)
+      .then(() => {
+        setLikes(likes + 1);
+      }).catch((err) => {
+        console.error(err);
+      })
+    }
+    if (dislikeClicked) {
+      axios.put(`posts/dislikes?post_id=${id}`)
+      .then(() => {
+        setDislikes(dislikes + 1);
+      }).catch((err) => {
+        console.error(err);
+      })
+    }
+  }, [likeClicked, dislikeClicked])
+
+  useEffect(() => {
+
+  }, [dislikeClicked])
+
   return (
     <div className="post">
-      <p className="post-title">{props.data.user} posted:</p>
-      {props.data.post.images.map((image, i) => (
-        <img key={i} className="post-image" src={image} alt="no images" />
-      ))}
-      <p className="post-text">{props.data.post.message}</p>
+      <p className="post-title">{user} posted:</p>
+      {photo_url.length > 0 && (
+        <img
+          id={postImageID}
+          className="post-image"
+          src={photo_url}
+          alt="no images"
+          onClick={() => {
+            if (postImageID === '') {
+              setPostImageId('post-image-selected')
+            } else {
+              setPostImageId('')
+            }
+          }}
+        />
+      )}
+      <p className="post-text">{message}</p>
+      <div className="post-likes-section">
+        <p className="post-likes">likes: {likesState}</p>
+        <p className="post-dislikes">dislikes: {dislikesState}</p>
+      </div>
       <div className="post-buttons">
         <img
           className="post-button like"
           src="https://img.icons8.com/material-sharp/24/000000/facebook-like--v1.png"
+          onClick={(e) => {
+            if (!likeClicked) {
+              setLikeClicked(true);
+            }
+          }}
+        />
+        <img
+          className="post-button comment"
+          src="https://img.icons8.com/windows/32/000000/comments--v1.png"
           onClick={(e) => {
 
           }}
@@ -20,14 +89,9 @@ const Post = (props) => {
           className="post-button dislike"
           src="https://img.icons8.com/material-sharp/24/000000/thumbs-down.png"
           onClick={(e) => {
-
-          }}
-        />
-        <img
-          className="post-button comment"
-          src="https://img.icons8.com/windows/32/000000/comments--v1.png"
-          onClick={(e) => {
-
+            if (!dislikeClicked) {
+              setDislikeClicked(true);
+            }
           }}
         />
       </div>
