@@ -25,6 +25,7 @@ const App = (props) => {
     return (
       <>
         <h1 className='title'>Smoked Meatia</h1>
+        <h2 className='user-name-title'>{user}</h2>
         <div id="main">
           <Feed setCreateClicked={setCreateClicked} data={data.feedData}/>
           {createClicked &&(

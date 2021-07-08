@@ -39,18 +39,23 @@ body {
   justify-content: center;
   flex-direction: column;
 }
-
+.user-name-title {
+  width: fit-content;
+  padding: 2px;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: white;
+}
 .post-image {
-  width: 20%;
-  max-height: 100vh;
-  max-width: 95%;
+  height: 250px;
   border: 3px solid black;
   border-radius: 15px;
   transition: 1s;
 }
 #post-image-selected {
+  max-width: 100%;
+  height: 700px;
   max-height: 90vh;
-  width: 40vw;
 }
 .post-text {
   text-align: center;

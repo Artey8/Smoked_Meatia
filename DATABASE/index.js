@@ -23,9 +23,20 @@ CREATE TABLE IF NOT EXISTS users (
       likes INTEGER NOT NULL,
       dislikes INTEGER NOT NULL
       )
-    `).catch((err) => {
+    `).then(() => {
+      pool.query(`
+      CREATE TABLE IF NOT EXISTS comments (
+        id SERIAL NOT NULL PRIMARY KEY,
+        user_id INTEGER NOT NULL REFERENCES users ( id ),
+        post_id INTEGER NOT NULL REFERENCES posts ( id ),
+        comment VARCHAR ( 200 )
+      )
+      `)
+    }).catch((err) => {
       console.error(err);
     })
+  }).catch((err) => {
+    console.error(err);
   })
 
 module.exports.pool = pool;

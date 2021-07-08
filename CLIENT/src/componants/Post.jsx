@@ -18,9 +18,17 @@ const Post = (props) => {
       }
     })
     .then((res) => {
-      setUser(res.data.rows[0].name);
+      for (let k = 0; k < res.data.rows.length; k++) {
+        if (user_id === res.data.rows[k].id) {
+          setUser(res.data.rows[k].name);
+        }
+      }
     })
   }, [props.data])
+
+  useEffect(() => {
+    console.log(postImageID)
+  }, [postImageID])
 
   useEffect(() => {
     if (likeClicked) {
@@ -56,6 +64,9 @@ const Post = (props) => {
           alt="no images"
           onClick={() => {
             if (postImageID === '') {
+              console.log(
+                'clicked!'
+              )
               setPostImageId('post-image-selected')
             } else {
               setPostImageId('')
