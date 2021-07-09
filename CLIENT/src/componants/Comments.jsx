@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Comment from './Comment';
 
 const Comments = (props) => {
   const { post_id, user_id } = props;
@@ -15,7 +16,7 @@ const Comments = (props) => {
         comment,
         post_id,
       }).then(() => {
-        setComments([...comments, { comment: comment}])
+        setComments([...comments, { user_id, comment: comment}])
         setComment('');
         setSubmitClicked(false);
       }).catch((err) => {
@@ -60,8 +61,9 @@ const Comments = (props) => {
 
   return (
     <div className="comment-section">
+      {console.log(comments)}
       {comments.map((comment, i) => (
-        <h2 className="comment-text" key={i}>{comment.comment}</h2>
+        <Comment data={comment} key={i} />
       ))}
       <div className="comment-form">
       <input
