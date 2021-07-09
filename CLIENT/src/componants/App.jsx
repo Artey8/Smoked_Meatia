@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import data from './mockdata';
 import Feed from './Feed';
 import PostForm from './PostForm';
@@ -8,6 +9,22 @@ const App = (props) => {
   const [createClicked, setCreateClicked] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState(null);
+
+  useEffect(() => {
+    axios.get('/users', {
+      params: {
+        all: true
+      }
+    })
+    .then((res) => {
+      for (let k = 0; k < res.data.rows.length; k++) {
+        if (user === res.data.rows[k].name) {
+          setCurrentUserId(res.data.rows[k].id);
+        }
+      }
+    })
+  }, [user])
 
   useEffect(() => {
     if (createClicked === 'posted') {
@@ -27,7 +44,7 @@ const App = (props) => {
         <h1 className='title'>Smoked Meatia</h1>
         <h2 className='user-name-title'>{user}</h2>
         <div id="main">
-          <Feed setCreateClicked={setCreateClicked} data={data.feedData}/>
+          <Feed currentUserId={String(currentUserId)} user={user} setCreateClicked={setCreateClicked} data={data.feedData}/>
           {createClicked &&(
           <>
             {createClicked === true ? (

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Comments from './Comments';
 
 const Post = (props) => {
-  const { photo_url, message, user_id, likes, dislikes, id } = props.data;
+  const { currentUserId, currentUserName } = props;
+  const { photo_url, message, user_id, likes, dislikes, id} = props.data;
   const [user, setUser] = useState('No UserName');
   const [likesState, setLikes] = useState(likes);
   const [dislikesState, setDislikes] = useState(dislikes);
   const [likeClicked, setLikeClicked] = useState(false);
   const [dislikeClicked, setDislikeClicked] = useState(false);
   const [postImageID, setPostImageId] = useState('');
+  const [commentsOn, setCommentsOn] = useState(false);
 
   useEffect(() => {
     axios.get('/users', {
@@ -25,10 +28,6 @@ const Post = (props) => {
       }
     })
   }, [props.data])
-
-  useEffect(() => {
-    console.log(postImageID)
-  }, [postImageID])
 
   useEffect(() => {
     if (likeClicked) {
@@ -93,7 +92,7 @@ const Post = (props) => {
           className="post-button comment"
           src="https://img.icons8.com/windows/32/000000/comments--v1.png"
           onClick={(e) => {
-
+            setCommentsOn(!commentsOn);
           }}
         />
         <img
@@ -106,6 +105,9 @@ const Post = (props) => {
           }}
         />
       </div>
+      {commentsOn && (
+        <Comments user_id={currentUserId} post_id={id} />
+      )}
     </div>
   )
 }

@@ -7,6 +7,7 @@ const port = 3000;
 const path = require('path');
 const { addPost, getPosts, updateLikes, updateDislikes } = require('../DATABASE/controllers/PostController');
 const { addUser, getUser } = require('../DATABASE/controllers/UserController');
+const { addComment, getComments } = require('../DATABASE/controllers/CommentController');
 
 app.use(express.static(path.join(__dirname, '/../CLIENT/dist/')));
 app.use(bodyParser.json({ limit: '2mb'}))
@@ -18,6 +19,26 @@ app.get('/posts', async (req, res) => {
     res.send(data);
   } catch(err) {
     console.error(err)
+    res.sendStatus(400);
+  }
+})
+
+app.get('/comments', async (req, res) => {
+  try {
+    let result = await getComments(req.query);
+    res.send(result);
+  } catch(err) {
+    console.error(err);
+    res.sendStatus(400);
+  }
+})
+
+app.post('/comments', async (req, res) => {
+  try {
+    await addComment(req.body);
+    res.sendStatus(201);
+  } catch (err) {
+    console.error(err);
     res.sendStatus(400);
   }
 })

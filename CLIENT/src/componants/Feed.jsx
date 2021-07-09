@@ -3,6 +3,7 @@ import axios from 'axios';
 import Post from './Post';
 
 const Feed = (props) => {
+  const { user, currentUserId } = props;
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const Feed = (props) => {
         Make Post
       </button>
       {posts.map((post) => (
-        <Post key={post.id} data={post}/>
+        <Post currentUserId={currentUserId} currentUserName={user} key={post.id} data={post}/>
       ))}
     </div>
   )
